@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0b0b0b">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <meta name="description" content="مدیریت برنامه مطالعه، ثبت پارت‌ها و زمان‌بندی مرورهای هوشمند">
+    <title>Study Tracker | مدیریت مطالعه و مرور هوشمند</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar"><div><h1>STUDY TRACKER</h1><p>مدیریت مطالعه و مرور هوشمند</p></div><div id="today" class="header-date"></div></header>
+<nav class="navigation">
+    <button class="nav-btn active" data-page="dashboard">داشبورد</button><button class="nav-btn" data-page="resources">درس‌ها و منابع</button><button class="nav-btn" data-page="study">ثبت مطالعه</button><button class="nav-btn" data-page="parts">پارت‌ها</button><button class="nav-btn" data-page="reviews">مرورها</button><button class="nav-btn" data-page="daily">عملکرد روزانه</button><button class="nav-btn" data-page="backup">پشتیبان‌گیری</button>
+</nav>
+<main>
+<section id="dashboard" class="page active"><h2>داشبورد</h2>
+<section class="daily-plan-panel">
+<div class="plan-header"><div><h3>برنامه مطالعاتی روزانه</h3><p>مطالعه‌های دستی و مرورهای خودکار در تاریخ سررسید</p></div><span id="planCount" class="plan-count">۰ مورد</span></div>
+<div class="plan-date-row"><label for="planDate">مشاهده برنامه تاریخ (روز/ماه/سال شمسی)</label><input id="planDate" class="jalali-date" placeholder="۱۹/۰۸/۱۴۰۵" inputmode="numeric"><button type="button" id="planTodayBtn" class="secondary-btn">امروز</button></div>
+<form id="planForm" class="plan-form"><div class="plan-select-wrapper"><label for="planLesson">افزودن مطالعه دستی</label><select id="planLesson" required><option value="">ابتدا درس انتخاب کن</option></select></div><button type="submit" class="primary-btn">+ افزودن به برنامه</button></form>
+<div class="plan-table-wrapper"><table class="plan-table"><thead><tr><th>ردیف</th><th>درس / فعالیت</th><th>وضعیت</th><th>عملیات</th></tr></thead><tbody id="planTableBody"></tbody></table><div id="emptyPlan" class="empty">برای این تاریخ برنامه‌ای ثبت نشده است.</div></div>
+<div class="plan-footer"><div class="plan-progress-info"><span>پیشرفت برنامه این تاریخ</span><strong id="planProgressText">۰٪</strong></div><div class="plan-progress-bar"><div id="planProgressFill"></div></div></div>
+</section>
+<div id="dashboardStats" class="stats-grid"></div><div class="panel"><h3>مرورهای امروز و معوق</h3><div id="dashboardReviews"></div></div><div class="panel"><h3>پیشرفت درس‌ها</h3><div id="dashboardLessons"></div></div>
+</section>
+<section id="resources" class="page"><h2>مدیریت درس‌ها و منابع</h2>
+<div class="panel"><h3>افزودن درس جدید</h3><form id="lessonForm"><label for="lessonName">نام درس</label><input id="lessonName" placeholder="مثلاً آناتومی" required><label for="lessonCode">کلمه اختصاصی درس</label><input id="lessonCode" placeholder="مثلاً AN" maxlength="12" required><button class="primary-btn">ثبت درس</button></form></div>
+<div class="panel"><h3>افزودن منبع</h3><form id="resourceForm"><label for="resourceLesson">انتخاب درس</label><select id="resourceLesson" required></select><label for="resourceName">نام منبع</label><input id="resourceName" placeholder="مثلاً اسنل" required><label for="resourcePages">تعداد کل صفحات</label><input id="resourcePages" type="number" min="1" placeholder="مثلاً ۲۳۰" required><button class="primary-btn">افزودن منبع</button></form></div>
+<div class="panel"><h3>درس‌های ثبت‌شده</h3><div id="lessonList"></div></div><h3>منابع ثبت‌شده</h3><div id="resourceList" class="resource-grid"></div>
+</section>
+<section id="study" class="page"><h2>ثبت جلسه مطالعه</h2><div class="panel"><p class="muted">با ثبت جلسه، شماره پارت به‌صورت خودکار تعیین می‌شود. می‌توانی چند منبع با تعداد صفحات مستقل را در یک پارت ثبت کنی.</p><form id="studyForm"><label for="studyLesson">درس</label><select id="studyLesson" required></select><label>منابع این پارت و تعداد صفحات هرکدام</label><div id="studyResources" class="study-resources"></div><button type="button" id="addStudyResource" class="secondary-btn">+ افزودن منبع دیگر</button><label for="studyDate">تاریخ مطالعه (روز/ماه/سال شمسی)</label><input id="studyDate" class="jalali-date" placeholder="۱۹/۰۸/۱۴۰۵" inputmode="numeric" required><label for="studyNotes">توضیحات</label><textarea id="studyNotes" placeholder="مباحث مطالعه‌شده یا نکات جلسه"></textarea><button class="primary-btn">ثبت مطالعه و ساخت پارت</button></form></div><div id="studyPreview" class="panel muted">پس از انتخاب درس، شماره پارت بعدی نمایش داده می‌شود.</div></section>
+<section id="parts" class="page"><h2>پارت‌های ثبت‌شده</h2><div class="filter-row"><select id="partLessonFilter"><option value="">همه درس‌ها</option></select></div><div id="partList"></div></section>
+<section id="reviews" class="page"><h2>مرور هوشمند</h2><div class="filter-row"><button class="filter-btn active" data-filter="due">امروز و معوق</button><button class="filter-btn" data-filter="upcoming">آینده</button><button class="filter-btn" data-filter="done">انجام‌شده</button><button class="filter-btn" data-filter="all">همه</button></div><div id="reviewList"></div></section>
+<section id="daily" class="page"><h2>عملکرد روزانه</h2><div class="panel"><form id="dailyForm"><label for="dailyDate">تاریخ (روز/ماه/سال شمسی)</label><input id="dailyDate" class="jalali-date" placeholder="۱۹/۰۸/۱۴۰۵" required inputmode="numeric"><label for="dailyHours">ساعت مطالعه</label><input id="dailyHours" type="number" min="0" step="0.25" placeholder="مثلاً ۳"><label for="dailyTests">تعداد کل تست</label><input id="dailyTests" type="number" min="0" placeholder="مثلاً ۵۰"><div class="three-columns"><input id="correct" type="number" min="0" placeholder="صحیح"><input id="wrong" type="number" min="0" placeholder="غلط"><input id="blank" type="number" min="0" placeholder="نزده"></div><label for="dailyNotes">توضیحات</label><textarea id="dailyNotes"></textarea><button class="primary-btn">ثبت عملکرد</button></form></div><div id="dailyList"></div></section>
+<section id="backup" class="page"><h2>پشتیبان‌گیری</h2><div class="panel"><p>برای جلوگیری از ازدست‌رفتن اطلاعات، مرتباً نسخه پشتیبان تهیه کن.</p><button id="exportBtn" class="primary-btn">دریافت فایل پشتیبان</button><hr><label for="importFile">انتخاب فایل JSON برای بازیابی</label><input type="file" id="importFile" accept=".json,application/json"><button id="importBtn" class="secondary-btn">بازیابی اطلاعات</button></div></section>
+</main>
+<div id="modal" class="modal hidden"><div class="modal-content"><button id="closeModal" class="close-btn" type="button">×</button><h3 id="modalTitle">ویرایش</h3><form id="editForm"><div id="editFields"></div><button class="primary-btn">ذخیره تغییرات</button></form></div></div>
+<script src="app.js"></script>
+<script type="module" src="cloud.js"></script>
+<script>
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js")
+            .then(() => console.log("Study Tracker: offline support ready"))
+            .catch(error => console.error("Service Worker registration failed:", error));
+    });
+}
+</script>
+</body></html>
